@@ -7,8 +7,6 @@ use crate::model::{CaddyConfig, Site};
 
 const BEGIN_MARKER: &str = "# caddyup:begin";
 const END_MARKER: &str = "# caddyup:end";
-const RATE_LIMIT_NOTE: &str =
-    "# rate_limit requires a Caddy build with a compatible rate-limit module";
 
 #[derive(Debug, Error)]
 enum CaddyfileError {
@@ -112,7 +110,6 @@ fn render_config(config: &CaddyConfig) -> String {
             output.push_str("    tls internal\n");
         }
         if site.rate_limit_enabled {
-            output.push_str(&format!("    {RATE_LIMIT_NOTE}\n"));
             output.push_str("    rate_limit {\n");
             output.push_str(&format!("        zone {} {{\n", site.rate_limit_zone));
             output.push_str(&format!(
